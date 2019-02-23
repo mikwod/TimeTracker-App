@@ -46,10 +46,13 @@ namespace TimeTracker
         {
             string taskName = AddTaskWindow.Prompt("Please name your new task:", "Add Task", "", AddTaskWindow.InputType.Text);
 
-            Task task = new Task(taskName);
-            int index = MainStack.Children.Count - 1;
+            if(taskName != null)
+            {
+                Task task = new Task(taskName);
+                int index = MainStack.Children.Count - 1;
 
-            MainStack.Children.Insert(index, task);
-        }
+                MainStack.Children.Insert(index, task);
+            }
+        }      
     }
 }

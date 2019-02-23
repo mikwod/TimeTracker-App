@@ -31,6 +31,7 @@ namespace TimeTracker
         private SolidColorBrush _startButtonColor;
         private SolidColorBrush _stopButtonColor;
         private SolidColorBrush _startButtonColorWithTime;
+        private double _hourUnit;
 
         public string TaskName
         {
@@ -58,6 +59,7 @@ namespace TimeTracker
             this._startButtonColor = Brushes.LawnGreen;
             this._stopButtonColor = Brushes.OrangeRed;
             this._startButtonColorWithTime = Brushes.LightBlue;
+            this._hourUnit = 0.5;
 
             //initialize properties
             this.TaskText.Text = _taskName;
@@ -92,7 +94,7 @@ namespace TimeTracker
             {
                 this._dispatcherTimer.Stop();
                 this._stopWatch.Stop();
-                ConvertElapsedTimeToHours();
+                this.ConvertElapsedTimeToHours();
                 this._stopWatch.Reset();
                 this.StartStopButton.Content = this.TimeText.Text != this._startTime ? "Time Recorded" : "Start";
                 this.StartStopButton.Background = this.TimeText.Text != this._startTime ? _startButtonColorWithTime : _startButtonColor;
@@ -113,7 +115,7 @@ namespace TimeTracker
         {
             if(this.TimeText.Text != this._startTime)
             {
-                this.TimeText.Text = (Math.Ceiling(this._stopWatch.Elapsed.TotalHours / 0.5) * 0.5).ToString() + " hours";
+                this.TimeText.Text = (Math.Ceiling(this._stopWatch.Elapsed.TotalHours / this._hourUnit) * this._hourUnit).ToString() + " hours";
             }
         }
 

@@ -37,13 +37,13 @@ namespace TimeTracker
             return ConfirmReset;
         }
 
-        private void btnOk_Click(object sender, RoutedEventArgs e)
+        private void btnYes_Click(object sender, RoutedEventArgs e)
         {
             ConfirmReset = true;
             Close();
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private void btnNo_Click(object sender, RoutedEventArgs e)
         {
             ConfirmReset = false;
             Close();

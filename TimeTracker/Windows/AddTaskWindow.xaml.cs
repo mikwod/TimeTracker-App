@@ -49,6 +49,7 @@ namespace TimeTracker
             inst.ShowDialog();
             if (inst.DialogResult == true)
                 return inst.ResponseText;
+            
             return null;
         }
 
@@ -62,8 +63,16 @@ namespace TimeTracker
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
-            Close();
+            if (!string.IsNullOrEmpty(this.ResponseText))
+            {
+                DialogResult = true;
+            }
+            else
+            {
+                MessageBox.Show("You must enter a Task Name!", "Invalid Task Name", MessageBoxButton.OK);
+                return;
+            }
+            this.Close();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
