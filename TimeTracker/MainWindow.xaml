@@ -6,12 +6,27 @@
         xmlns:local="clr-namespace:TimeTracker"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="Time Tracker" Height="600" Width="400">
+        Title="Time Tracker" Height="600" Width="800">
     <StackPanel x:Name="MainStack">
         <Grid Margin="0 20 0 0" x:Name="MainGrid">
 
         </Grid>
+        <!--new code below-->
+        
+        <!--<TreeView x:Name="WorkingDaysView">'
+            
+            <TreeView.Resources>
+                
+                <Style TargetType="{x:Type TreeViewItem}">
+
+                </Style>
+
+            </TreeView.Resources>
+            
+        </TreeView>-->
+        
         <Button x:Name="AddTaskButton" Content="Add Task" Click="AddTaskButton_Click"></Button>
+
     </StackPanel>
 
 </Window>

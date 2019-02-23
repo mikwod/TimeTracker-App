@@ -12,12 +12,10 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="TaskText" TextAlignment="Center" Text="Task 1" Grid.Column="0"></TextBlock>
-        <Button x:Name="StartButton" Click="StartButton_Click" Content="Start" Grid.Column="1"></Button>
-        <Button x:Name="StopButton" Click="StopButton_Click" Content="Stop" Grid.Column="2"></Button>
-        <TextBlock TextAlignment="Center" x:Name="TimeText" Text="No Time" Grid.Column="3"></TextBlock>
+        <Button x:Name="StartStopButton" Click="StartStopButton_Click" Content="Button" Grid.Column="1"></Button>
+        <TextBlock TextAlignment="Center" x:Name="TimeText" Text="No Time" Grid.Column="2"></TextBlock>
     </Grid>
 </UserControl>

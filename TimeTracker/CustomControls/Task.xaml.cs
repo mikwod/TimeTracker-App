@@ -52,27 +52,40 @@ namespace TimeTracker
             this._startTime = "00:00:00";
             this._taskName = taskName;
             this.TaskText.Text = _taskName;
+            this.StartStopButton.Content = "Start";
+            this.TimeText.Text = this._startTime;
         }
 
         #endregion
 
         #region Events
 
-        private void StartButton_Click(object sender, RoutedEventArgs e)
+        private void StartStopButton_Click(object sender, RoutedEventArgs e)
         {
-            this.TimeText.Text = _startTime;
+            if (!this._dispatcherTimer.IsEnabled)
+            {
+                if(this.TimeText.Text != this._startTime)
+                {
+                    bool confirmReset = ConfirmTimerResetWindow.Prompt("Are you sure you wish to reset the timer?", "Alert!");
+                    if (!confirmReset)
+                        return;
+                }
+                this.TimeText.Text = _startTime;
+                this._dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+                this._dispatcherTimer.Interval = _dispatcherInterval;
+                this._dispatcherTimer.Start();
+                this._stopWatch.Start();
+                this.StartStopButton.Content = "Stop";
+            }
+            else
+            {
+                this._dispatcherTimer.Stop();
+                this._stopWatch.Stop();
+                this._stopWatch.Reset();
+                this.StartStopButton.Content = "Start";
+            }
+        }
 
-            this._dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            this._dispatcherTimer.Interval = _dispatcherInterval;
-            this._dispatcherTimer.Start();
-            this._stopWatch.Start();
-        }
-        private void StopButton_Click(object sender, RoutedEventArgs e)
-        {
-            this._stopWatch.Stop();
-            this._dispatcherTimer.Stop();
-            this._stopWatch.Reset();
-        }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {

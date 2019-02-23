@@ -32,8 +32,6 @@ namespace TimeTracker
         public MainWindow()
         {
             InitializeComponent();
-            Task task = new Task("task");
-            //this.MainGrid.Children.Add(task);
         }
 
         #endregion
