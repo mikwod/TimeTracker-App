@@ -28,6 +28,9 @@ namespace TimeTracker
         private TimeSpan _dispatcherInterval;
         private string _startTime;
         private string _taskName;
+        private SolidColorBrush _startButtonColor;
+        private SolidColorBrush _stopButtonColor;
+        private SolidColorBrush _startButtonColorWithTime;
 
         public string TaskName
         {
@@ -46,13 +49,20 @@ namespace TimeTracker
         {
             InitializeComponent();
 
+            //set private members
             this._stopWatch = new Stopwatch();
             this._dispatcherTimer = new DispatcherTimer(DispatcherPriority.Send);
             this._dispatcherInterval = new TimeSpan(0, 0, 0, 0, 100);
             this._startTime = "00:00:00";
             this._taskName = taskName;
+            this._startButtonColor = Brushes.LawnGreen;
+            this._stopButtonColor = Brushes.OrangeRed;
+            this._startButtonColorWithTime = Brushes.LightBlue;
+
+            //initialize properties
             this.TaskText.Text = _taskName;
             this.StartStopButton.Content = "Start";
+            this.StartStopButton.Background = _startButtonColor;
             this.TimeText.Text = this._startTime;
         }
 
@@ -76,13 +86,15 @@ namespace TimeTracker
                 this._dispatcherTimer.Start();
                 this._stopWatch.Start();
                 this.StartStopButton.Content = "Stop";
+                this.StartStopButton.Background = _stopButtonColor;
             }
             else
             {
                 this._dispatcherTimer.Stop();
                 this._stopWatch.Stop();
                 this._stopWatch.Reset();
-                this.StartStopButton.Content = "Start";
+                this.StartStopButton.Content = this.TimeText.Text != this._startTime ? "Time Recorded" : "Start";
+                this.StartStopButton.Background = this.TimeText.Text != this._startTime ? _startButtonColorWithTime : _startButtonColor;
             }
         }
 
