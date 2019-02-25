@@ -20,29 +20,25 @@ using System.Windows.Threading;
 
 namespace TimeTracker
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class TaskGrid : UserControl
     {
-        //private List<Task> taskList;
-        
 
-        #region Constructor
-
-        public MainWindow()
+        public TaskGrid()
         {
             InitializeComponent();
         }
 
-        #endregion
-
-
-        public void Window_Loaded(object sender, RoutedEventArgs e)
+        private void addTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            TaskStack.Children.Add(new TaskGrid());
-        }
+            string taskName = AddTaskWindow.Prompt("Please name your new task:", "Add Task", "", AddTaskWindow.InputType.Text);
 
-     
+            if (taskName != null)
+            {
+                Task task = new Task(taskName);
+                int index = TaskStack.Children.Count;
+
+                TaskStack.Children.Insert(index, task);
+            }
+        }
     }
 }

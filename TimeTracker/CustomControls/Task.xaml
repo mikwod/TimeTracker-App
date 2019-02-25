@@ -6,16 +6,26 @@
              xmlns:local="clr-namespace:TimeTracker"
              mc:Ignorable="d" 
              d:DesignHeight="20" d:DesignWidth="300">
-    <Grid Margin="0 0 0 0">
+    <!--<Border BorderBrush="Black" BorderThickness=".5">-->
+        <Grid Margin="0 0 0 0" >
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width=".5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" BorderBrush="Black" BorderThickness=".5" />
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness=".5" />
+        <Border Grid.Column="2" BorderBrush="Black" BorderThickness=".5" />
+
+
+
 
         <TextBlock x:Name="TaskText" TextAlignment="Center" Text="Task 1" Grid.Column="0"></TextBlock>
-        <Button x:Name="StartStopButton" Click="StartStopButton_Click" Content="Button" Grid.Column="1"></Button>
-        <TextBlock TextAlignment="Center" x:Name="TimeText" Text="No Time" Grid.Column="2"></TextBlock>
-    </Grid>
+            <TextBlock TextAlignment="Center" x:Name="TimeText" Text="No Time" Grid.Column="1"></TextBlock>
+            <Button x:Name="StartStopButton" Click="startStopButton_Click" Content="Button" Grid.Column="2"></Button>
+        </Grid>
+    <!--</Border>-->
+
 </UserControl>

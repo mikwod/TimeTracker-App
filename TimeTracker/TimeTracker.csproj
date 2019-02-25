@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomControls\TaskGrid.xaml.cs">
+      <DependentUpon>TaskGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ConfirmTimerResetWindow.xaml.cs">
       <DependentUpon>ConfirmTimerResetWindow.xaml</DependentUpon>
     </Compile>
@@ -64,6 +67,10 @@
     <Compile Include="CustomControls\Task.xaml.cs">
       <DependentUpon>Task.xaml</DependentUpon>
     </Compile>
+    <Page Include="CustomControls\TaskGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\ConfirmTimerResetWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

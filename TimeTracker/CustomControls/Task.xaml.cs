@@ -23,19 +23,22 @@ namespace TimeTracker
     public partial class Task : UserControl
     {
         #region Members and Properties
-        private Stopwatch _stopWatch;
-        private DispatcherTimer _dispatcherTimer;
-        private TimeSpan _dispatcherInterval;
-        private string _startTime;
-        private string _taskName;
-        private SolidColorBrush _startButtonColor;
-        private SolidColorBrush _stopButtonColor;
-        private SolidColorBrush _startButtonColorWithTime;
-        private double _hourUnit;
+        private Stopwatch stopWatch;
+        private DispatcherTimer dispatcherTimer;
+        private TimeSpan dispatcherInterval;
+        private string startTime;
+        private string taskName;
+        private SolidColorBrush startButtonColor;
+        private SolidColorBrush stopButtonColor;
+        private SolidColorBrush startButtonColorWithTime;
+        private double hourUnit;
+
+        private bool isRunning;
+
 
         public string TaskName
         {
-            get { return _taskName; }
+            get { return taskName; }
         }
         public string ElapsedTimeString
         {
@@ -51,53 +54,56 @@ namespace TimeTracker
             InitializeComponent();
 
             //set private members
-            this._stopWatch = new Stopwatch();
-            this._dispatcherTimer = new DispatcherTimer(DispatcherPriority.Send);
-            this._dispatcherInterval = new TimeSpan(0, 0, 0, 0, 100);
-            this._startTime = "00:00:00";
-            this._taskName = taskName;
-            this._startButtonColor = Brushes.LawnGreen;
-            this._stopButtonColor = Brushes.OrangeRed;
-            this._startButtonColorWithTime = Brushes.LightBlue;
-            this._hourUnit = 0.5;
+            this.stopWatch = new Stopwatch();
+            this.dispatcherTimer = new DispatcherTimer(DispatcherPriority.Send);
+            this.dispatcherInterval = new TimeSpan(0, 0, 0, 0, 100);
+            this.startTime = "00:00:00";
+            this.taskName = taskName;
+            this.startButtonColor = Brushes.LawnGreen;
+            this.stopButtonColor = Brushes.OrangeRed;
+            this.startButtonColorWithTime = Brushes.LightBlue;
+            this.hourUnit = 0.5;
+            this.isRunning = false;
 
             //initialize properties
-            this.TaskText.Text = _taskName;
+            this.TaskText.Text = taskName;
             this.StartStopButton.Content = "Start";
-            this.StartStopButton.Background = _startButtonColor;
-            this.TimeText.Text = this._startTime;
+            this.StartStopButton.Background = startButtonColor;
+            this.TimeText.Text = this.startTime;
         }
 
         #endregion
 
         #region Events
 
-        private void StartStopButton_Click(object sender, RoutedEventArgs e)
+        private void startStopButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!this._dispatcherTimer.IsEnabled)
+            if (!this.dispatcherTimer.IsEnabled)
             {
-                if(this.TimeText.Text != this._startTime)
+                if(this.TimeText.Text != this.startTime)
                 {
                     bool confirmReset = ConfirmTimerResetWindow.Prompt("Are you sure you wish to reset the timer?", "Alert!");
                     if (!confirmReset)
                         return;
                 }
-                this.TimeText.Text = _startTime;
-                this._dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-                this._dispatcherTimer.Interval = _dispatcherInterval;
-                this._dispatcherTimer.Start();
-                this._stopWatch.Start();
+                this.TimeText.Text = startTime;
+                this.dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+                this.dispatcherTimer.Interval = dispatcherInterval;
+                this.dispatcherTimer.Start();
+                this.stopWatch.Start();
                 this.StartStopButton.Content = "Stop";
-                this.StartStopButton.Background = _stopButtonColor;
+                this.StartStopButton.Background = stopButtonColor;
+                this.isRunning = true;
             }
             else
             {
-                this._dispatcherTimer.Stop();
-                this._stopWatch.Stop();
-                this.ConvertElapsedTimeToHours();
-                this._stopWatch.Reset();
-                this.StartStopButton.Content = this.TimeText.Text != this._startTime ? "Time Recorded" : "Start";
-                this.StartStopButton.Background = this.TimeText.Text != this._startTime ? _startButtonColorWithTime : _startButtonColor;
+                this.dispatcherTimer.Stop();
+                this.stopWatch.Stop();
+                this.convertElapsedTimeToHours();
+                this.stopWatch.Reset();
+                this.StartStopButton.Content = this.TimeText.Text != this.startTime ? "Time Recorded" : "Start";
+                this.StartStopButton.Background = this.TimeText.Text != this.startTime ? startButtonColorWithTime : startButtonColor;
+                this.isRunning = false;
             }
         }
 
@@ -105,17 +111,17 @@ namespace TimeTracker
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             // Updating the Label which displays the current second
-            this.TimeText.Text = this._stopWatch.Elapsed.ToString(@"hh\:mm\:ss");
+            this.TimeText.Text = this.stopWatch.Elapsed.ToString(@"hh\:mm\:ss");
 
             // Forcing the CommandManager to raise the RequerySuggested event
             CommandManager.InvalidateRequerySuggested();
         }
 
-        private void ConvertElapsedTimeToHours()
+        private void convertElapsedTimeToHours()
         {
-            if(this.TimeText.Text != this._startTime)
+            if(this.TimeText.Text != this.startTime)
             {
-                this.TimeText.Text = (Math.Ceiling(this._stopWatch.Elapsed.TotalHours / this._hourUnit) * this._hourUnit).ToString() + " hours";
+                this.TimeText.Text = (Math.Ceiling(this.stopWatch.Elapsed.TotalHours / this.hourUnit) * this.hourUnit).ToString() + " hours";
             }
         }
 
