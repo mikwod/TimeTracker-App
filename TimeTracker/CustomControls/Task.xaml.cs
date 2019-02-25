@@ -35,8 +35,10 @@ namespace TimeTracker
         private SolidColorBrush stopButtonColor;
         private SolidColorBrush startButtonColorWithTime;
         private double hourUnit;
+        private TaskGrid taskGrid;
 
         public bool IsCustom;
+        public bool IsRunning;
 
 
         public string TaskName
@@ -47,7 +49,7 @@ namespace TimeTracker
         {
             get { return TimeText.Text; }
         }
-        public bool IsRunning
+        public bool TimeHasElapsed
         {
             get { return this.TimeText.Text != this.startTime ? true : false; }
         }
@@ -56,7 +58,7 @@ namespace TimeTracker
         #endregion
 
         #region Constructors
-        public Task(string taskName, bool isCustom)
+        public Task(string taskName, bool isCustom, TaskGrid taskGrid)
         {
             InitializeComponent();
 
@@ -72,11 +74,14 @@ namespace TimeTracker
             this.hourUnit = 0.5;
 
             //initialize properties
+            this.taskGrid = taskGrid;
             this.TaskText.Text = taskName;
             this.StartStopButton.Content = "Start";
             this.StartStopButton.Background = startButtonColor;
             this.TimeText.Text = this.startTime;
             this.IsCustom = isCustom;
+            this.IsRunning = false;
+
         }
 
         #endregion
@@ -87,7 +92,12 @@ namespace TimeTracker
         {
             if (!this.dispatcherTimer.IsEnabled)
             {
-                if(this.IsRunning)
+                if (this.taskGrid.TaskIsRunning)
+                {
+                    MessageBox.Show( "'" + this.taskGrid.TaskNameRunning + "' is already started! Stop the task before starting a new task.", "Invalid Action", MessageBoxButton.OK);
+                    return;
+                }
+                if (this.TimeHasElapsed)
                 {
                     bool confirmReset = ConfirmTimerResetWindow.Prompt("Are you sure you wish to reset the timer?", "Alert!");
                     if (!confirmReset)
@@ -100,15 +110,19 @@ namespace TimeTracker
                 this.stopWatch.Start();
                 this.StartStopButton.Content = "Stop";
                 this.StartStopButton.Background = stopButtonColor;
+                this.IsRunning = true;
             }
             else
             {
+
                 this.dispatcherTimer.Stop();
                 this.stopWatch.Stop();
                 this.convertElapsedTimeToHours();
                 this.stopWatch.Reset();
                 this.StartStopButton.Content = this.TimeText.Text != this.startTime ? "Time Recorded" : "Start";
                 this.StartStopButton.Background = this.TimeText.Text != this.startTime ? startButtonColorWithTime : startButtonColor;
+                this.IsRunning = false;
+                
             }
         }
 

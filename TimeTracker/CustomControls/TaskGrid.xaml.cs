@@ -27,6 +27,16 @@ namespace TimeTracker
     {
         public List<Task> TaskList;
 
+        public bool TaskIsRunning
+        {
+            get { return TaskList.Where(x => x.IsRunning).Any(); }
+        }
+
+        public string TaskNameRunning
+        {
+            get { return TaskList.Where(x => x.IsRunning).Select(x => x.TaskText.Text).First(); }
+        }
+
         public TaskGrid()
         {
             InitializeComponent();
@@ -39,7 +49,7 @@ namespace TimeTracker
 
             if (taskName != null)
             {
-                Task task = new Task(taskName, true);
+                Task task = new Task(taskName, true, this);
                 this.TaskList.Add(task);
                 int index = this.TaskStack.Children.Count;
                 TaskStack.Children.Insert(index, task);
