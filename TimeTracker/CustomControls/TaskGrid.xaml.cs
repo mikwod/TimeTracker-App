@@ -20,6 +20,9 @@ using System.Windows.Threading;
 
 namespace TimeTracker
 {
+    /// <summary>
+    /// Contains all tasks for a given day
+    /// </summary>
     public partial class TaskGrid : UserControl
     {
 

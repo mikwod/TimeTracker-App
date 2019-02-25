@@ -20,6 +20,9 @@ using System.Windows.Threading;
 
 namespace TimeTracker
 {
+    /// <summary>
+    /// Individual task object that contains task name, task time, and start/stop button
+    /// </summary>
     public partial class Task : UserControl
     {
         #region Members and Properties
@@ -33,8 +36,6 @@ namespace TimeTracker
         private SolidColorBrush startButtonColorWithTime;
         private double hourUnit;
 
-        private bool isRunning;
-
 
         public string TaskName
         {
@@ -43,6 +44,10 @@ namespace TimeTracker
         public string ElapsedTimeString
         {
             get { return TimeText.Text; }
+        }
+        public bool IsRunning
+        {
+            get { return this.TimeText.Text != this.startTime ? true : false; }
         }
 
 
@@ -63,7 +68,6 @@ namespace TimeTracker
             this.stopButtonColor = Brushes.OrangeRed;
             this.startButtonColorWithTime = Brushes.LightBlue;
             this.hourUnit = 0.5;
-            this.isRunning = false;
 
             //initialize properties
             this.TaskText.Text = taskName;
@@ -80,7 +84,7 @@ namespace TimeTracker
         {
             if (!this.dispatcherTimer.IsEnabled)
             {
-                if(this.TimeText.Text != this.startTime)
+                if(this.IsRunning)
                 {
                     bool confirmReset = ConfirmTimerResetWindow.Prompt("Are you sure you wish to reset the timer?", "Alert!");
                     if (!confirmReset)
@@ -93,7 +97,6 @@ namespace TimeTracker
                 this.stopWatch.Start();
                 this.StartStopButton.Content = "Stop";
                 this.StartStopButton.Background = stopButtonColor;
-                this.isRunning = true;
             }
             else
             {
@@ -103,7 +106,6 @@ namespace TimeTracker
                 this.stopWatch.Reset();
                 this.StartStopButton.Content = this.TimeText.Text != this.startTime ? "Time Recorded" : "Start";
                 this.StartStopButton.Background = this.TimeText.Text != this.startTime ? startButtonColorWithTime : startButtonColor;
-                this.isRunning = false;
             }
         }
 
