@@ -10,7 +10,7 @@
         <StackPanel x:Name="TaskStack">
             
         </StackPanel>
-        <StackPanel Orientation="Horizontal" x:Name="ButtonStack" HorizontalAlignment="left">
+        <StackPanel Orientation="Horizontal" x:Name="ButtonStack" HorizontalAlignment="left" Margin="0 10 0 0">
             <Button x:Name="AddTaskButton" Content="Add Custom Task" Click="addCustomTaskButton_Click" Padding="3"></Button>
         </StackPanel>
     </StackPanel>
