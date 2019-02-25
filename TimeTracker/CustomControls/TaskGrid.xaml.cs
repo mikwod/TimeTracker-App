@@ -25,21 +25,23 @@ namespace TimeTracker
     /// </summary>
     public partial class TaskGrid : UserControl
     {
+        public List<Task> TaskList;
 
         public TaskGrid()
         {
             InitializeComponent();
+            this.TaskList = new List<Task>();
         }
 
-        private void addTaskButton_Click(object sender, RoutedEventArgs e)
+        private void addCustomTaskButton_Click(object sender, RoutedEventArgs e)
         {
             string taskName = AddTaskWindow.Prompt("Please name your new task:", "Add Task", "", AddTaskWindow.InputType.Text);
 
             if (taskName != null)
             {
-                Task task = new Task(taskName);
-                int index = TaskStack.Children.Count;
-
+                Task task = new Task(taskName, true);
+                this.TaskList.Add(task);
+                int index = this.TaskStack.Children.Count;
                 TaskStack.Children.Insert(index, task);
             }
         }

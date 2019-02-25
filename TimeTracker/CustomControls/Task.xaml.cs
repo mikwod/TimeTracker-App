@@ -36,6 +36,8 @@ namespace TimeTracker
         private SolidColorBrush startButtonColorWithTime;
         private double hourUnit;
 
+        public bool IsCustom;
+
 
         public string TaskName
         {
@@ -54,7 +56,7 @@ namespace TimeTracker
         #endregion
 
         #region Constructors
-        public Task(string taskName)
+        public Task(string taskName, bool isCustom)
         {
             InitializeComponent();
 
@@ -74,6 +76,7 @@ namespace TimeTracker
             this.StartStopButton.Content = "Start";
             this.StartStopButton.Background = startButtonColor;
             this.TimeText.Text = this.startTime;
+            this.IsCustom = isCustom;
         }
 
         #endregion
